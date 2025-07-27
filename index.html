@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Evet mi Hayır mı?</title>
+  <style>
+    body {
+        background-image: url(mert.jpeg);
+      height: 100vh;
+      margin: 0;
+      background-color: #fff0f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-family: Arial, sans-serif;
+    }
+    img{
+        width: 100%;
+        height: auto;
+    }
+
+    .buttons {
+      position: relative;
+      width: 300px;
+      height: 200px;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 20px;
+      margin: 10px;
+      cursor: pointer;
+      position: absolute;
+    }
+
+    #evet {
+      left: 50%;
+      transform: translateX(-50%);
+      top: 20px;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 10px;
+    }
+
+    #hayir {
+      background-color: crimson;
+      color: white;
+      border: none;
+      border-radius: 10px;
+    }
+
+    .video-container {
+      display: none;
+      margin-top: 30px;
+    }
+
+    iframe {
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <h1 id="baslik">Devam etmek istiyor musun?</h1>
+
+  <div class="buttons">
+    <button id="evet">Evet</button>
+    <button id="hayir">Hayır</button>
+  </div>
+
+  <div class="video-container" id="video-container">
+    <h2>💖 İşte senin için bir tatlı kedi! 😺</h2>
+    <iframe width="400" height="225"
+      src="https://www.youtube.com/embed/yXWw0_UfSFg?autoplay=1&mute=1"
+      title="Tatlı kedi videosu"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <script>
+    const hayirBtn = document.getElementById('hayir');
+    const evetBtn = document.getElementById('evet');
+    const container = document.querySelector('.buttons');
+    const videoContainer = document.getElementById('video-container');
+    const baslik = document.getElementById('baslik');
+
+    function rastgeleKonumAta() {
+      const maxX = container.clientWidth - hayirBtn.offsetWidth;
+      const maxY = container.clientHeight - hayirBtn.offsetHeight;
+
+      const rastgeleX = Math.random() * maxX;
+      const rastgeleY = Math.random() * maxY;
+
+      hayirBtn.style.left = `${rastgeleX}px`;
+      hayirBtn.style.top = `${rastgeleY}px`;
+    }
+
+    hayirBtn.addEventListener('mouseenter', rastgeleKonumAta);
+
+    evetBtn.addEventListener('click', () => {
+      baslik.textContent = "Harika seçim! 😻";
+      videoContainer.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
