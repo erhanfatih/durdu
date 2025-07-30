@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Evet mi Hayır mı?</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 2rem;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .buttons {
+      position: relative;
+      width: 100%;
+      height: 400px;
+    }
+
+    #evet {
+      position: absolute;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.4s ease;
+      z-index: 1;
+      font-size: 2rem;
+      padding: 1rem;
+      width: 20%;
+      height: 80px; /* Başlangıç yüksekliği */
+    }
+
+    #hayir {
+      position: absolute;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      padding: 1rem 2rem;
+      font-size: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: all 0.4s ease;
+      z-index: 2;
+      left: calc(50% + 160px);
+    }
+
+    .celebration {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #28a745;
+      color: white;
+      font-size: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 9999;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Evet mi Hayır mı?</h1>
+  <div class="buttons">
+    <button id="evet"><span id="evetText">Evet</span></button>
+    <button id="hayir">Hayır</button>
+  </div>
+
+  <script>
+    const evetBtn = document.getElementById("evet");
+    const hayirBtn = document.getElementById("hayir");
+    const evetText = document.getElementById("evetText");
+
+    const evetMetinleri = [
+      "Evet",
+      "Emin misin?",
+      "Son kararın mı?",
+      "Bak hâlâ düşünebilirsin...",
+      "EVET DE ARTIK 😡"
+    ];
+
+    const widthSteps = [20, 40, 60, 80, 100]; // yüzde olarak
+    let evetIndex = 0;
+
+    const baseHeight = 80; // 20% genişliğe karşılık gelen yükseklik
+
+    function updateHayirPosition(evetWidthPercent) {
+      const screenWidth = window.innerWidth;
+      const evetWidthPx = (screenWidth * evetWidthPercent) / 100;
+      const offset = evetWidthPx / 2 + 60;
+      hayirBtn.style.left = `calc(50% + ${offset}px)`;
+    }
+
+    hayirBtn.addEventListener("click", () => {
+      if (evetIndex >= widthSteps.length - 1) return;
+
+      evetIndex++;
+      const newWidth = widthSteps[evetIndex];
+      evetBtn.style.width = `${newWidth}%`;
+
+      // Yüksekliği en-boy oranını koruyacak şekilde ayarla
+      const newHeight = (newWidth / 20) * baseHeight;
+      evetBtn.style.height = `${newHeight}px`;
+
+      evetText.innerText = evetMetinleri[evetIndex];
+      evetText.style.fontSize = `${1.5 + evetIndex * 0.5}rem`;
+
+      updateHayirPosition(newWidth);
+    });
+
+    evetBtn.addEventListener("click", () => {
+      const kutlama = document.createElement("div");
+      kutlama.className = "celebration";
+      kutlama.innerHTML = `
+        🎉🎊🥳<br><br><strong>Biliyordummm!</strong><br><br>🎉🎊🥳
+      `;
+      document.body.innerHTML = '';
+      document.body.appendChild(kutlama);
+    });
+
+    // İlk konum ayarı
+    updateHayirPosition(widthSteps[0]);
+  </script>
+
+</body>
+</html>
